@@ -7,53 +7,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #080c10;
-  --surface: #111720;
-  --surface2: #1a2230;
-  --border: #1e2d40;
-  --accent: #00e5ff;
-  --accent2: #ff6b35;
-  --green: #39ff14;
-  --text: #e8f4f8;
-  --muted: #5a7a8a;
-  --danger: #ff3b5c;
-  --yellow: #ffed00;
+  --bg:#080c10; --surface:#111720; --surface2:#1a2230;
+  --border:#1e2d40; --accent:#00e5ff; --accent2:#ff6b35;
+  --green:#39ff14; --text:#e8f4f8; --muted:#5a7a8a;
+  --danger:#ff3b5c; --yellow:#ffed00;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; user-select: none; }
-body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; min-height: 100vh; overflow-x: hidden; }
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none; z-index: 0;
-}
-.app { position: relative; z-index: 1; }
+* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; user-select:none; }
+body { background:var(--bg); color:var(--text); font-family:'DM Mono',monospace; min-height:100vh; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(0,229,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.03) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
+.app { position:relative; z-index:1; }
 
-header {
-  background: #111720;
-  border-bottom: 3px solid var(--yellow);
-  padding: 8px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 100;
-}
-header img { height: 48px; object-fit: contain; display: block; }
+header { background:#111720; border-bottom:3px solid var(--yellow); padding:8px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+header img { height:48px; object-fit:contain; display:block; }
 .status-dot { width:10px; height:10px; border-radius:50%; background:var(--muted); transition:all 0.3s; display:inline-block; margin-right:6px; }
 .status-dot.listening { background:var(--green); box-shadow:0 0 10px var(--green); animation:pulse 1s infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
 .status-text { font-size:11px; color:var(--muted); }
 
+/* CSV UPLOAD */
+.csv-section { margin:14px 16px; }
+.csv-btn { width:100%; padding:13px; border-radius:12px; border:2px dashed var(--border); background:var(--surface); color:var(--muted); font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:1px; cursor:pointer; text-align:center; transition:all 0.2s; }
+.csv-btn.loaded { border-color:var(--accent); color:var(--accent); border-style:solid; }
+.csv-btn input { display:none; }
+
 /* CRONÓMETRO */
-.chrono-section { padding: 16px 16px 0; text-align: center; }
-.chrono-display {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 68px; letter-spacing: 4px;
-  color: var(--accent); text-shadow: 0 0 30px rgba(0,229,255,0.5);
-  line-height: 1; margin-bottom: 12px;
-}
-.chrono-display.running { color: var(--green); text-shadow: 0 0 30px rgba(57,255,20,0.5); }
-.chrono-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.c-btn { padding:12px 8px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:1px; cursor:pointer; transition:all 0.15s; }
+.chrono-section { padding:0 16px; text-align:center; }
+.chrono-display { font-family:'Bebas Neue',sans-serif; font-size:68px; letter-spacing:4px; color:var(--accent); text-shadow:0 0 30px rgba(0,229,255,0.5); line-height:1; margin-bottom:12px; }
+.chrono-display.running { color:var(--green); text-shadow:0 0 30px rgba(57,255,20,0.5); }
+.chrono-btns { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:14px; }
+.c-btn { padding:12px 8px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:1px; cursor:pointer; }
 .c-btn:active { transform:scale(0.95); }
 .c-btn.start { border-color:var(--green); color:var(--green); }
 .c-btn.start:active { background:var(--green); color:#000; }
@@ -61,121 +43,62 @@ header img { height: 48px; object-fit: contain; display: block; }
 .c-btn.stop:active { background:var(--danger); color:#fff; }
 .c-btn.reset { border-color:var(--muted); color:var(--muted); }
 
-/* TECLADO NUMERICO GRANDE */
-.numpad-section { padding: 0 16px 14px; }
-.numpad-display {
-  background: var(--surface2);
-  border: 2px solid var(--accent2);
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px;
-}
-.numpad-display .nd-number {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 48px; letter-spacing: 4px;
-  color: var(--accent2);
-  min-width: 160px;
-  text-shadow: 0 0 20px rgba(255,107,53,0.4);
-}
-.numpad-display .nd-time { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--accent); }
-.numpad-display .nd-placeholder { color:var(--muted); font-size:14px; }
-
-.numpad-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-.np-btn {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 18px 8px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
-  color: var(--text);
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.1s;
-}
-.np-btn:active { background: var(--surface2); transform: scale(0.94); border-color: var(--accent2); }
-.np-btn.zero { grid-column: span 1; }
-.np-btn.del { color: var(--danger); border-color: var(--border); font-size: 22px; }
-.np-btn.del:active { border-color: var(--danger); background: rgba(255,59,92,0.1); }
-.np-btn.confirm {
-  background: var(--green); color: #000;
-  border-color: var(--green);
-  font-size: 22px;
-  box-shadow: 0 0 16px rgba(57,255,20,0.3);
-}
-.np-btn.confirm:active { opacity: 0.8; transform: scale(0.94); }
-.np-btn.confirm:disabled { background: var(--surface2); color: var(--muted); border-color: var(--border); box-shadow: none; }
+/* TECLADO */
+.numpad-section { padding:0 16px 14px; }
+.numpad-display { background:var(--surface2); border:2px solid var(--accent2); border-radius:12px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.nd-left { flex:1; }
+.nd-number { font-family:'Bebas Neue',sans-serif; font-size:44px; letter-spacing:4px; color:var(--accent2); line-height:1; }
+.nd-runner { font-size:11px; color:var(--accent); margin-top:2px; min-height:14px; }
+.nd-category { font-size:10px; color:var(--muted); }
+.nd-placeholder { color:var(--muted); font-size:14px; }
+.nd-time { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--accent); }
+.numpad-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.np-btn { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 8px; font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--text); cursor:pointer; text-align:center; transition:all 0.1s; }
+.np-btn:active { background:var(--surface2); transform:scale(0.94); border-color:var(--accent2); }
+.np-btn.del { color:var(--danger); font-size:22px; }
+.np-btn.del:active { border-color:var(--danger); }
+.np-btn.confirm { background:var(--green); color:#000; border-color:var(--green); font-size:22px; box-shadow:0 0 16px rgba(57,255,20,0.3); }
+.np-btn.confirm:active { opacity:0.8; }
+.np-btn.confirm:disabled { background:var(--surface2); color:var(--muted); border-color:var(--border); box-shadow:none; }
 
 /* VOZ */
-.voice-section { padding: 0 16px 14px; }
-.mic-btn {
-  width: 100%; padding: 14px;
-  border-radius: 12px; border: 2px solid var(--muted);
-  background: var(--surface); color: var(--muted);
-  font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 2px;
-  cursor: pointer; transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-}
+.voice-section { padding:0 16px 14px; }
+.mic-btn { width:100%; padding:16px; border-radius:12px; border:2px solid var(--muted); background:var(--surface); color:var(--muted); font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:2px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:10px; }
 .mic-btn.active { border-color:var(--green); color:var(--green); background:rgba(57,255,20,0.05); box-shadow:0 0 20px rgba(57,255,20,0.15); }
 
-/* ÚLTIMO REGISTRO */
-.last-entry {
-  margin: 0 16px 14px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; padding: 12px 14px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.last-entry .le-label { font-size:11px; color:var(--muted); text-transform:uppercase; margin-bottom:2px; }
-.last-entry .le-value { font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--accent2); letter-spacing:1px; }
-.last-entry .le-time { font-size:16px; color:var(--accent); font-family:'Bebas Neue',sans-serif; }
-.undo-btn { padding:10px 14px; border-radius:8px; border:1px solid var(--danger); background:transparent; color:var(--danger); font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:1px; cursor:pointer; }
+.voice-buffer { margin:0 16px 14px; background:var(--surface); border:1px solid var(--green); border-radius:12px; padding:12px 16px; display:none; }
+.vb-label { font-size:11px; color:var(--green); text-transform:uppercase; margin-bottom:8px; letter-spacing:1px; }
+.vb-numbers { display:flex; flex-wrap:wrap; gap:8px; }
+.vb-chip { font-family:'Bebas Neue',sans-serif; font-size:22px; background:rgba(57,255,20,0.1); border:1px solid var(--green); border-radius:8px; padding:4px 12px; color:var(--green); }
+
+/* ÚLTIMO */
+.last-entry { margin:0 16px 14px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; }
+.le-label { font-size:11px; color:var(--muted); text-transform:uppercase; margin-bottom:2px; }
+.le-value { font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--accent2); }
+.le-name { font-size:12px; color:var(--accent); margin-top:1px; }
+.le-time { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--accent); text-align:right; }
+.undo-btn { padding:10px 14px; border-radius:8px; border:1px solid var(--danger); background:transparent; color:var(--danger); font-family:'Bebas Neue',sans-serif; font-size:14px; cursor:pointer; }
 .undo-btn:active { background:var(--danger); color:#fff; }
 
 /* TABLA */
-.table-section { padding: 0 16px 100px; }
+.table-section { padding:0 16px 100px; }
 .table-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-.table-header span { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--muted); letter-spacing:1px; }
-.export-btn { padding:8px 14px; border-radius:8px; border:1px solid var(--accent); background:transparent; color:var(--accent); font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:1px; cursor:pointer; }
+.table-header span { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--muted); }
+.export-btn { padding:8px 14px; border-radius:8px; border:1px solid var(--accent); background:transparent; color:var(--accent); font-family:'Bebas Neue',sans-serif; font-size:14px; cursor:pointer; }
 .export-btn:active { background:var(--accent); color:#000; }
-
 .entry-list { display:flex; flex-direction:column; gap:6px; }
-.entry-row {
-  display: grid; grid-template-columns: 44px 1fr 1fr auto;
-  align-items: center; gap: 8px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 10px 12px;
-  animation: fadeIn 0.25s ease;
-}
+.entry-row { display:grid; grid-template-columns:40px 1fr auto auto; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:10px 12px; animation:fadeIn 0.25s ease; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
-.entry-row .pos { font-family:'Bebas Neue',sans-serif; font-size:15px; color:var(--muted); }
-.entry-row .dorsal { font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--accent2); letter-spacing:1px; }
-.entry-row .tiempo { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--accent); text-align:right; }
+.entry-row .pos { font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--muted); }
+.entry-row .info .dorsal { font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--accent2); }
+.entry-row .info .name { font-size:11px; color:var(--accent); }
+.entry-row .info .cat { font-size:10px; color:var(--muted); }
+.entry-row .tiempo { font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--accent); text-align:right; }
 .entry-row .del-btn { width:28px; height:28px; border-radius:6px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
 .entry-row .del-btn:active { border-color:var(--danger); color:var(--danger); }
-
 .empty-list { text-align:center; padding:30px; color:var(--muted); font-size:13px; }
 
-/* FEEDBACK VISUAL */
-.voice-feedback {
-  position: fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-  background: rgba(0,0,0,0.93); border:2px solid var(--green);
-  border-radius: 20px; padding:24px 40px; text-align:center;
-  z-index: 500; display:none;
-  box-shadow: 0 0 40px rgba(57,255,20,0.3);
-}
-.voice-feedback.show { display:block; animation:popIn 0.15s ease; }
-@keyframes popIn { from{transform:translate(-50%,-50%) scale(0.8);opacity:0} to{transform:translate(-50%,-50%) scale(1);opacity:1} }
-.vf-number { font-family:'Bebas Neue',sans-serif; font-size:80px; color:var(--green); text-shadow:0 0 30px var(--green); line-height:1; }
-.vf-time { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--accent); margin-top:4px; }
-.vf-label { font-size:11px; color:var(--muted); margin-top:6px; text-transform:uppercase; }
-
-/* TOAST */
-.toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--accent); color:#000; font-family:'Bebas Neue',sans-serif; font-weight:700; font-size:13px; padding:10px 20px; border-radius:50px; z-index:300; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
+.toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--accent); color:#000; font-family:'Bebas Neue',sans-serif; font-size:13px; padding:10px 20px; border-radius:50px; z-index:300; opacity:0; transition:opacity 0.3s; pointer-events:none; white-space:nowrap; }
 .toast.show { opacity:1; }
 </style>
 </head>
@@ -190,6 +113,14 @@ header img { height: 48px; object-fit: contain; display: block; }
   </div>
 </header>
 
+<!-- CSV UPLOAD -->
+<div class="csv-section">
+  <label class="csv-btn" id="csv-label">
+    📋 CARGAR CSV DE ACREDITACIÓN
+    <input type="file" accept=".csv" id="csv-input" onchange="loadCSV(this)">
+  </label>
+</div>
+
 <!-- CRONÓMETRO -->
 <div class="chrono-section">
   <div class="chrono-display" id="chrono-display">00:00:00</div>
@@ -200,12 +131,13 @@ header img { height: 48px; object-fit: contain; display: block; }
   </div>
 </div>
 
-<!-- TECLADO NUMÉRICO -->
+<!-- TECLADO -->
 <div class="numpad-section">
   <div class="numpad-display">
-    <div>
-      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;margin-bottom:2px;">N° Dorsal</div>
+    <div class="nd-left">
       <div class="nd-number" id="nd-number"><span class="nd-placeholder">_ _ _ _</span></div>
+      <div class="nd-runner" id="nd-runner"></div>
+      <div class="nd-category" id="nd-category"></div>
     </div>
     <div class="nd-time" id="nd-time">--:--:--</div>
   </div>
@@ -219,7 +151,7 @@ header img { height: 48px; object-fit: contain; display: block; }
     <button class="np-btn" onclick="npPress('7')">7</button>
     <button class="np-btn" onclick="npPress('8')">8</button>
     <button class="np-btn" onclick="npPress('9')">9</button>
-    <button class="np-btn zero" onclick="npPress('0')">0</button>
+    <button class="np-btn" onclick="npPress('0')">0</button>
     <button class="np-btn del" onclick="npDel()">⌫</button>
     <button class="np-btn confirm" id="confirm-btn" onclick="npConfirm()" disabled>✓</button>
   </div>
@@ -233,286 +165,340 @@ header img { height: 48px; object-fit: contain; display: block; }
   </button>
 </div>
 
-<!-- ÚLTIMO REGISTRO -->
+<div class="voice-buffer" id="voice-buffer">
+  <div class="vb-label">🎤 Detectando...</div>
+  <div class="vb-numbers" id="vb-numbers"></div>
+</div>
+
 <div class="last-entry" id="last-entry" style="display:none">
   <div>
     <div class="le-label">Último registrado</div>
     <div class="le-value" id="last-dorsal">—</div>
-    <div class="le-time" id="last-time">—</div>
+    <div class="le-name" id="last-name"></div>
   </div>
-  <button class="undo-btn" onclick="undoLast()">✕ BORRAR</button>
+  <div style="text-align:right">
+    <div class="le-time" id="last-time">—</div>
+    <button class="undo-btn" style="margin-top:6px" onclick="undoLast()">✕ BORRAR</button>
+  </div>
 </div>
 
-<!-- TABLA -->
 <div class="table-section">
   <div class="table-header">
     <span id="entry-count">0 REGISTROS</span>
-    <button class="export-btn" onclick="exportCSV()">↓ EXPORTAR CSV</button>
+    <button class="export-btn" onclick="exportCSV()">↓ CSV</button>
   </div>
   <div class="entry-list" id="entry-list">
-    <div class="empty-list">Usá el teclado o la voz para registrar corredores.</div>
+    <div class="empty-list">Cargá el CSV y empezá a registrar corredores.</div>
   </div>
-</div>
-
-<!-- FEEDBACK VISUAL -->
-<div class="voice-feedback" id="voice-feedback">
-  <div class="vf-number" id="vf-number">—</div>
-  <div class="vf-time" id="vf-time">—</div>
-  <div class="vf-label">✓ Registrado</div>
 </div>
 
 <div class="toast" id="toast"></div>
 </div>
 
 <script>
-// ============ CRONÓMETRO ============
-let chronoStart = 0, chronoElapsed = 0, chronoRunning = false, chronoInterval = null;
+const FIREBASE = "https://sporttimer-482b3-default-rtdb.firebaseio.com";
+const RACE_ID = "race_" + new Date().toISOString().slice(0,10).replace(/-/g,"");
 
-function formatTime(ms) {
-  const h = Math.floor(ms / 3600000);
-  const m = Math.floor((ms % 3600000) / 60000);
-  const s = Math.floor((ms % 60000) / 1000);
-  return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
-}
-function getElapsed() { return chronoRunning ? chronoElapsed + (Date.now() - chronoStart) : chronoElapsed; }
-function startChrono() {
-  if (chronoRunning) return;
-  chronoStart = Date.now(); chronoRunning = true;
-  document.getElementById("chrono-display").classList.add("running");
-  chronoInterval = setInterval(() => {
-    document.getElementById("chrono-display").textContent = formatTime(getElapsed());
-    if (npBuffer.length > 0) document.getElementById("nd-time").textContent = formatTime(getElapsed());
-  }, 100);
-}
-function stopChrono() {
-  if (!chronoRunning) return;
-  chronoElapsed += Date.now() - chronoStart; chronoRunning = false;
-  clearInterval(chronoInterval);
-  document.getElementById("chrono-display").classList.remove("running");
-}
-function resetChrono() { stopChrono(); chronoElapsed = 0; document.getElementById("chrono-display").textContent = "00:00:00"; }
+// ===== RUNNERS DB (del CSV) =====
+let runnersDB = {}; // { "123": { name, category, distance } }
 
-// ============ TECLADO NUMÉRICO ============
-let npBuffer = "";
+function loadCSV(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      // Detectar encoding - intentar UTF-8 primero, sino latin1
+      let text = e.target.result;
+      parseCSV(text, file.name);
+    } catch(err) { showToast("Error leyendo CSV"); }
+  };
+  reader.readAsText(file, 'ISO-8859-1');
+}
 
-function npPress(d) {
-  if (npBuffer.length >= 4) return;
-  npBuffer += d;
-  updateNpDisplay();
-}
-function npDel() {
-  npBuffer = npBuffer.slice(0, -1);
-  updateNpDisplay();
-}
-function updateNpDisplay() {
-  const el = document.getElementById("nd-number");
-  const btn = document.getElementById("confirm-btn");
-  if (npBuffer.length === 0) {
-    el.innerHTML = '<span class="nd-placeholder">_ _ _ _</span>';
-    document.getElementById("nd-time").textContent = "--:--:--";
-    btn.disabled = true;
-  } else {
-    el.textContent = npBuffer;
-    document.getElementById("nd-time").textContent = formatTime(getElapsed());
-    btn.disabled = false;
+function parseCSV(text, filename) {
+  const lines = text.split(/?
+/).filter(l => l.trim());
+  if (!lines.length) return;
+
+  // Detectar separador (;  o ,)
+  const sep = lines[0].includes(';') ? ';' : ',';
+  const headers = lines[0].split(sep).map(h => h.trim().toUpperCase());
+
+  // Buscar columnas clave
+  const iNum = headers.findIndex(h => h === 'NUMERO' || h === 'NRO' || h === 'DORSAL' || h === 'NUM');
+  const iNombre = headers.findIndex(h => h === 'NOMBRE' || h === 'NAME');
+  const iApellido = headers.findIndex(h => h === 'APELLIDO' || h === 'LASTNAME');
+  const iCat = headers.findIndex(h => h.includes('CATEG') || h.includes('CAT'));
+  const iDist = headers.findIndex(h => h === 'DISTANCIA' || h === 'DIST' || h === 'MANGA');
+
+  if (iNum === -1) { showToast("No encontré columna NUMERO en el CSV"); return; }
+
+  runnersDB = {};
+  let count = 0;
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(sep);
+    const num = cols[iNum]?.trim();
+    if (!num) continue;
+    const nombre = iNombre >= 0 ? cols[iNombre]?.trim() : '';
+    const apellido = iApellido >= 0 ? cols[iApellido]?.trim() : '';
+    const cat = iCat >= 0 ? cols[iCat]?.trim() : '';
+    const dist = iDist >= 0 ? cols[iDist]?.trim() : '';
+    runnersDB[num] = {
+      name: [nombre, apellido].filter(Boolean).join(' '),
+      category: cat,
+      distance: dist
+    };
+    count++;
   }
-}
-function npConfirm() {
-  if (!npBuffer) return;
-  const num = parseInt(npBuffer);
-  registerDorsal(num);
-  npBuffer = "";
-  updateNpDisplay();
+
+  const label = document.getElementById('csv-label');
+  label.className = 'csv-btn loaded';
+  label.childNodes[0].textContent = '✓ ' + filename + ' — ' + count + ' corredores';
+  showToast('✓ ' + count + ' corredores cargados');
+  saveRunnersDB();
 }
 
-// ============ REGISTROS ============
-let entries = [];
-
-function registerDorsal(num) {
-  const tiempo = formatTime(getElapsed());
-  const ms = getElapsed();
-  const entry = { pos: entries.length + 1, dorsal: num, tiempo, ms };
-  entries.push(entry);
-  renderEntries();
-  showFeedback(num, tiempo);
-  updateLast();
-  saveLocal();
+function getRunner(num) {
+  return runnersDB[String(num)] || null;
 }
 
-function undoLast() {
-  if (!entries.length) return;
-  entries.pop();
-  entries.forEach((e, i) => e.pos = i + 1);
-  renderEntries(); updateLast(); saveLocal();
+function saveRunnersDB() {
+  try { localStorage.setItem('runnersDB', JSON.stringify(runnersDB)); } catch(e) {}
 }
-
-function deleteEntry(idx) {
-  entries.splice(idx, 1);
-  entries.forEach((e, i) => e.pos = i + 1);
-  renderEntries(); updateLast(); saveLocal();
-}
-
-function updateLast() {
-  const el = document.getElementById("last-entry");
-  if (!entries.length) { el.style.display = "none"; return; }
-  el.style.display = "flex";
-  const last = entries[entries.length - 1];
-  document.getElementById("last-dorsal").textContent = "# " + last.dorsal;
-  document.getElementById("last-time").textContent = last.tiempo;
-}
-
-function renderEntries() {
-  const list = document.getElementById("entry-list");
-  document.getElementById("entry-count").textContent = entries.length + " REGISTROS";
-  if (!entries.length) {
-    list.innerHTML = '<div class="empty-list">Usá el teclado o la voz para registrar corredores.</div>';
-    return;
-  }
-  list.innerHTML = [...entries].reverse().map((e, ri) => {
-    const idx = entries.length - 1 - ri;
-    return `<div class="entry-row">
-      <div class="pos">${e.pos}°</div>
-      <div class="dorsal"># ${e.dorsal}</div>
-      <div class="tiempo">${e.tiempo}</div>
-      <button class="del-btn" onclick="deleteEntry(${idx})">✕</button>
-    </div>`;
-  }).join("");
-}
-
-function showFeedback(num, tiempo) {
-  const fb = document.getElementById("voice-feedback");
-  document.getElementById("vf-number").textContent = "# " + num;
-  document.getElementById("vf-time").textContent = tiempo;
-  fb.classList.add("show");
-  setTimeout(() => fb.classList.remove("show"), 1200);
-}
-
-function showToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg; t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 2000);
-}
-
-function saveLocal() {
-  try { localStorage.setItem("race_entries", JSON.stringify(entries)); } catch(e) {}
-}
-function loadLocal() {
+function loadRunnersDB() {
   try {
-    const d = localStorage.getItem("race_entries");
-    if (d) { entries = JSON.parse(d); renderEntries(); updateLast(); }
+    const d = localStorage.getItem('runnersDB');
+    if (d) {
+      runnersDB = JSON.parse(d);
+      const count = Object.keys(runnersDB).length;
+      if (count > 0) {
+        const label = document.getElementById('csv-label');
+        label.className = 'csv-btn loaded';
+        label.childNodes[0].textContent = '✓ CSV cargado — ' + count + ' corredores';
+      }
+    }
   } catch(e) {}
 }
 
-// ============ RECONOCIMIENTO DE VOZ MEJORADO ============
-const NUMEROS = {
-  "cero":0,"un":1,"uno":1,"una":1,"dos":2,"tres":3,"cuatro":4,"cinco":5,
-  "seis":6,"siete":7,"ocho":8,"nueve":9,"diez":10,"once":11,"doce":12,
-  "trece":13,"catorce":14,"quince":15,"dieciséis":16,"dieciseis":16,
-  "diecisiete":17,"dieciocho":18,"diecinueve":19,"veinte":20,
-  "veintiún":21,"veintiuno":21,"veintidós":22,"veintidos":22,
-  "veintitrés":23,"veintitres":23,"veinticuatro":24,"veinticinco":25,
-  "veintiséis":26,"veintiseis":26,"veintisiete":27,"veintiocho":28,
-  "veintinueve":29,"treinta":30,"cuarenta":40,"cincuenta":50,
-  "sesenta":60,"setenta":70,"ochenta":80,"noventa":90,
-  "cien":100,"ciento":100,"doscientos":200,"doscientas":200,
-  "trescientos":300,"trescientas":300,"cuatrocientos":400,"cuatrocientas":400,
-  "quinientos":500,"quinientas":500,"seiscientos":600,"seiscientas":600,
-  "setecientos":700,"setecientas":700,"ochocientos":800,"ochocientas":800,
-  "novecientos":900,"novecientas":900,"mil":1000
-};
+// ===== CRONÓMETRO =====
+let chronoStart=0, chronoElapsed=0, chronoRunning=false, chronoInterval=null;
+function formatTime(ms) {
+  const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000), s=Math.floor((ms%60000)/1000);
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function getElapsed() { return chronoRunning ? chronoElapsed+(Date.now()-chronoStart) : chronoElapsed; }
+function startChrono() {
+  if (chronoRunning) return;
+  chronoStart=Date.now(); chronoRunning=true;
+  document.getElementById('chrono-display').classList.add('running');
+  chronoInterval=setInterval(()=>document.getElementById('chrono-display').textContent=formatTime(getElapsed()),100);
+}
+function stopChrono() {
+  if (!chronoRunning) return;
+  chronoElapsed+=Date.now()-chronoStart; chronoRunning=false;
+  clearInterval(chronoInterval);
+  document.getElementById('chrono-display').classList.remove('running');
+}
+function resetChrono() { stopChrono(); chronoElapsed=0; document.getElementById('chrono-display').textContent='00:00:00'; }
 
-function wordsToNumber(text) {
-  // Try direct digit match first
-  const direct = text.match(/\b(\d{1,4})\b/);
-  if (direct) return parseInt(direct[1]);
-
-  text = text.trim().toLowerCase()
-    .replace(/[áàâ]/g,"a").replace(/[éèê]/g,"e").replace(/[íìî]/g,"i")
-    .replace(/[óòô]/g,"o").replace(/[úùû]/g,"u")
-    .replace(/\s+y\s+/g," y ");
-
-  const words = text.split(/\s+/);
-  let result = 0, current = 0;
-
-  for (let w of words) {
-    if (w === "y") continue;
-    const val = NUMEROS[w];
-    if (val === undefined) continue;
-    if (val === 1000) {
-      current = current === 0 ? 1 : current;
-      result += current * 1000;
-      current = 0;
-    } else if (val >= 100) {
-      current += val;
-    } else {
-      current += val;
-    }
+// ===== TECLADO =====
+let npBuffer='';
+function npPress(d) {
+  if (npBuffer.length>=4) return;
+  npBuffer+=d;
+  updateNpDisplay();
+}
+function npDel() { npBuffer=npBuffer.slice(0,-1); updateNpDisplay(); }
+function updateNpDisplay() {
+  const el=document.getElementById('nd-number');
+  const btn=document.getElementById('confirm-btn');
+  const runnerEl=document.getElementById('nd-runner');
+  const catEl=document.getElementById('nd-category');
+  if (!npBuffer.length) {
+    el.innerHTML='<span class="nd-placeholder">_ _ _ _</span>';
+    document.getElementById('nd-time').textContent='--:--:--';
+    runnerEl.textContent=''; catEl.textContent='';
+    btn.disabled=true;
+  } else {
+    el.textContent=npBuffer;
+    document.getElementById('nd-time').textContent=formatTime(getElapsed());
+    btn.disabled=false;
+    // Preview del corredor
+    const r=getRunner(npBuffer);
+    if (r) { runnerEl.textContent=r.name; catEl.textContent=r.category; }
+    else { runnerEl.textContent=''; catEl.textContent=''; }
   }
-  result += current;
-  return result > 0 ? result : null;
+}
+function npConfirm() { if(!npBuffer) return; registerDorsal(parseInt(npBuffer)); npBuffer=''; updateNpDisplay(); }
+
+// ===== REGISTROS =====
+let entries=[];
+function registerDorsal(num) {
+  const tiempo=formatTime(getElapsed());
+  const runner=getRunner(num);
+  const entry={
+    pos:entries.length+1, dorsal:num, tiempo, ms:getElapsed(),
+    name: runner ? runner.name : '',
+    category: runner ? runner.category : '',
+    distance: runner ? runner.distance : ''
+  };
+  entries.push(entry);
+  renderEntries(); updateLast(); saveData();
+}
+function undoLast() {
+  if (!entries.length) return;
+  entries.pop(); entries.forEach((e,i)=>e.pos=i+1);
+  renderEntries(); updateLast(); saveData();
+}
+function deleteEntry(idx) {
+  entries.splice(idx,1); entries.forEach((e,i)=>e.pos=i+1);
+  renderEntries(); updateLast(); saveData();
+}
+function updateLast() {
+  const el=document.getElementById('last-entry');
+  if (!entries.length) { el.style.display='none'; return; }
+  el.style.display='flex';
+  const last=entries[entries.length-1];
+  document.getElementById('last-dorsal').textContent='# '+last.dorsal+(last.name?' — '+last.name:'');
+  document.getElementById('last-name').textContent=last.category||'';
+  document.getElementById('last-time').textContent=last.tiempo;
+}
+function renderEntries() {
+  const list=document.getElementById('entry-list');
+  document.getElementById('entry-count').textContent=entries.length+' REGISTROS';
+  if (!entries.length) { list.innerHTML='<div class="empty-list">Cargá el CSV y empezá a registrar.</div>'; return; }
+  list.innerHTML=[...entries].reverse().map((e,ri)=>{
+    const idx=entries.length-1-ri;
+    return `<div class="entry-row">
+      <div class="pos">${e.pos}°</div>
+      <div class="info">
+        <div class="dorsal"># ${e.dorsal}</div>
+        ${e.name?`<div class="name">${e.name}</div>`:''}
+        ${e.category?`<div class="cat">${e.category}</div>`:''}
+      </div>
+      <div class="tiempo">${e.tiempo}</div>
+      <button class="del-btn" onclick="deleteEntry(${idx})">✕</button>
+    </div>`;
+  }).join('');
+}
+function showToast(msg) {
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
 }
 
-let recognition = null, voiceActive = false;
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+// ===== FIREBASE =====
+async function saveData() {
+  try { localStorage.setItem('race_v3',JSON.stringify(entries)); } catch(e) {}
+  try {
+    await fetch(FIREBASE+'/races/'+RACE_ID+'.json', {
+      method:'PUT',
+      body:JSON.stringify({ entries, updated:Date.now() })
+    });
+  } catch(e) { console.warn('Firebase:', e); }
+}
+function loadData() {
+  try { const d=localStorage.getItem('race_v3'); if(d){entries=JSON.parse(d);renderEntries();updateLast();} } catch(e) {}
+}
 
+// ===== VOZ =====
+const NUMS={
+  'cero':0,'un':1,'uno':1,'una':1,'dos':2,'tres':3,'cuatro':4,'cinco':5,
+  'seis':6,'siete':7,'ocho':8,'nueve':9,'diez':10,'once':11,'doce':12,
+  'trece':13,'catorce':14,'quince':15,'dieciseis':16,'diecisiete':17,
+  'dieciocho':18,'diecinueve':19,'veinte':20,'veintiuno':21,'veintidos':22,
+  'veintitres':23,'veinticuatro':24,'veinticinco':25,'veintiseis':26,
+  'veintisiete':27,'veintiocho':28,'veintinueve':29,'treinta':30,
+  'cuarenta':40,'cincuenta':50,'sesenta':60,'setenta':70,'ochenta':80,
+  'noventa':90,'cien':100,'ciento':100,'doscientos':200,'doscientas':200,
+  'trescientos':300,'trescientas':300,'cuatrocientos':400,'cuatrocientas':400,
+  'quinientos':500,'quinientas':500,'seiscientos':600,'seiscientas':600,
+  'setecientos':700,'setecientas':700,'ochocientos':800,'ochocientas':800,
+  'novecientos':900,'novecientas':900,'mil':1000
+};
+function norm(t) { return t.toLowerCase().replace(/[áàä]/g,'a').replace(/[éèë]/g,'e').replace(/[íìï]/g,'i').replace(/[óòö]/g,'o').replace(/[úùü]/g,'u').replace(/ñ/g,'n'); }
+function extractAllNumbers(text) {
+  text=norm(text);
+  const direct=text.match(/\d{1,4}/g);
+  if (direct && direct.length) { return direct.map(n=>parseInt(n)).filter(n=>n>=1&&n<=9999); }
+  const results=[];
+  const segs=text.split(/(?:coma|luego|despues|siguiente|y)/);
+  for (const seg of segs) {
+    const words=seg.trim().split(/\s+/);
+    let cur=0, res=0, found=false;
+    for (const w of words) {
+      if (w==='y') continue;
+      const v=NUMS[w]; if (v===undefined) continue; found=true;
+      if (v===1000){cur=cur===0?1:cur;res+=cur*1000;cur=0;}
+      else if(v>=100){cur+=v;} else{cur+=v;}
+    }
+    res+=cur;
+    if(found&&res>=1&&res<=9999) results.push(res);
+  }
+  return results;
+}
+
+let recognition=null, voiceActive=false;
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 if (SR) {
-  recognition = new SR();
-  recognition.lang = "es-AR";
-  recognition.continuous = true;
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 3;
-
-  recognition.onresult = (event) => {
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      if (!event.results[i].isFinal) continue;
-      // Try all alternatives
-      for (let a = 0; a < event.results[i].length; a++) {
-        const transcript = event.results[i][a].transcript.trim();
-        console.log("Alternativa", a, ":", transcript);
-        const num = wordsToNumber(transcript);
-        if (num !== null && num >= 1 && num <= 9999) {
-          registerDorsal(num);
-          break;
-        }
-      }
+  recognition=new SR();
+  recognition.lang='es-AR'; recognition.continuous=true;
+  recognition.interimResults=true; recognition.maxAlternatives=3;
+  recognition.onresult=(event)=>{
+    let interim='';
+    for(let i=event.resultIndex;i<event.results.length;i++){
+      const t=event.results[i][0].transcript;
+      if(event.results[i].isFinal){
+        const nums=extractAllNumbers(t);
+        if(nums.length){nums.forEach(n=>registerDorsal(n));hideVoiceBuf();}
+      } else { interim+=t; showVoiceBuf(interim); }
     }
   };
-  recognition.onerror = (e) => { if (e.error !== "no-speech") setVoiceStatus(false); };
-  recognition.onend = () => { if (voiceActive) { try { recognition.start(); } catch(e){} } };
+  recognition.onerror=(e)=>{if(e.error!=='no-speech')setVoiceStatus(false);};
+  recognition.onend=()=>{if(voiceActive){try{recognition.start();}catch(e){}}};
+}
+function showVoiceBuf(text){
+  const buf=document.getElementById('voice-buffer');
+  const nums=extractAllNumbers(text);
+  buf.style.display='block';
+  document.getElementById('vb-numbers').innerHTML=nums.length
+    ? nums.map(n=>`<div class="vb-chip">${n}</div>`).join('')
+    : `<span style="color:var(--muted);font-size:12px">${text}</span>`;
+}
+function hideVoiceBuf(){
+  document.getElementById('voice-buffer').style.display='none';
+  document.getElementById('vb-numbers').innerHTML='';
+}
+function toggleVoice(){
+  if(!recognition){showToast('Voz no disponible');return;}
+  voiceActive=!voiceActive;
+  if(voiceActive){try{recognition.start();}catch(e){}setVoiceStatus(true);}
+  else{recognition.stop();setVoiceStatus(false);hideVoiceBuf();}
+}
+function setVoiceStatus(active){
+  voiceActive=active;
+  document.getElementById('mic-label').textContent=active?'🔴 ESCUCHANDO — DECÍ LOS NÚMEROS':'🎤 ACTIVAR COMANDO DE VOZ';
+  document.getElementById('status-text').textContent=active?'Escuchando':'Listo';
+  document.getElementById('mic-btn').classList.toggle('active',active);
+  document.getElementById('status-dot').classList.toggle('listening',active);
 }
 
-function toggleVoice() {
-  if (!recognition) { showToast("Voz no disponible en este navegador"); return; }
-  voiceActive = !voiceActive;
-  if (voiceActive) { try { recognition.start(); } catch(e){} setVoiceStatus(true); }
-  else { recognition.stop(); setVoiceStatus(false); }
-}
-
-function setVoiceStatus(active) {
-  voiceActive = active;
-  const btn = document.getElementById("mic-btn");
-  const dot = document.getElementById("status-dot");
-  document.getElementById("mic-label").textContent = active ? "🔴 ESCUCHANDO — DECÍ EL NÚMERO" : "🎤 ACTIVAR COMANDO DE VOZ";
-  document.getElementById("status-text").textContent = active ? "Escuchando" : "Listo";
-  btn.classList.toggle("active", active);
-  dot.classList.toggle("listening", active);
-}
-
-// ============ EXPORTAR CSV ============
-function exportCSV() {
-  if (!entries.length) { showToast("Sin registros para exportar"); return; }
-  const rows = [["Posicion","Dorsal","Tiempo"]];
-  entries.forEach(e => rows.push([e.pos, e.dorsal, e.tiempo]));
-  const csv = rows.map(r => r.join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = "resultados_carrera.csv"; a.click();
+// ===== EXPORT =====
+function exportCSV(){
+  if(!entries.length){showToast('Sin registros');return;}
+  const rows=[['Posicion','Dorsal','Nombre','Categoria','Distancia','Tiempo']];
+  entries.forEach(e=>rows.push([e.pos,e.dorsal,e.name||'',e.category||'',e.distance||'',e.tiempo]));
+  const csv=rows.map(r=>r.join(',')).join('
+');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='resultados.csv'; a.click();
   URL.revokeObjectURL(url);
 }
 
 // Init
-loadLocal();
+loadRunnersDB();
+loadData();
 </script>
 </body>
 </html>
